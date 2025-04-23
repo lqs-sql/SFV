@@ -1,0 +1,472 @@
+#include "mainwindow.h"
+#include "./ui_mainwindow.h"
+#include <QLabel>
+#include <QTabBar>
+#include <QDebug>
+#include <QMouseEvent>
+#include <QStandardPaths>
+#include <FileUtil.cpp>
+#include <TreeUtil.cpp>
+#include <QInputDialog>
+#include <StringUtil.h>
+#include <QDesktopServices>
+#include <QTreeWidgetItem>
+
+#include <QTextEdit>
+#include "commandwindow.h"
+#include "CustomTextEdit.h"
+
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow) {
+    ui->setupUi(this);
+    //设置spiltter里的控件比例
+    ui->splitter->setSizes(QList<int>() << width() / 16 * 4 << width() / 16 * 12);
+//    //设置QTabWidget的标签可被关闭
+//    ui->SshTabWidget->setTabsClosable(true);
+    // 连接 tabCloseRequested 信号到自定义槽函数
+    connect(ui->SshTabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
+    // 连接 tabBarClicked 信号到自定义槽函数
+    connect(ui->SshTabWidget, &QTabWidget::tabBarClicked, this, &MainWindow::clickTab);
+    // 连接 currentChanged 信号到自定义槽函数
+    connect(ui->SshTabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabSwitch);
+    //开启所有标签页的可关闭按钮
+    ui->SshTabWidget->setTabsClosable(true);
+    //设置某个标签可关闭
+    QTabBar *tabBar = ui->SshTabWidget->tabBar();
+    tabBar->setTabButton(0, QTabBar::RightSide, NULL); // 移除索引为0位置的标签的关闭按钮
+    tabBar->setTabButton(ui->SshTabWidget->count() - 1, QTabBar::RightSide, NULL); // 移除索引最后一个位置的标签的关闭按钮
+    //开启索引标签页的可移动
+    ui->SshTabWidget->setMovable(true);
+    //使用原生标签移动tabMoved信号，触发自定义槽函数
+    connect(ui->SshTabWidget->tabBar(), &QTabBar::tabMoved, this, [this](int to, int from) {
+//        qDebug()<<"to："<<to<<"，from："<<from;
+        if (to == 0 || to == ui->SshTabWidget->count() - 1) {
+            // 移动后的索引为 0，将标签移回原来的位置
+            ui->SshTabWidget->tabBar()->moveTab(from, to);
+        }
+    });
+    // 获取第二个标签页的 QWidget
+    QWidget *firstTabWidget = ui->ConfigTabWidget->widget(1);
+
+
+    // 创建文件树视图
+    fileTreeView = new QTreeView(firstTabWidget);
+    fileSystemModel = new QFileSystemModel(this);
+    qDebug() << "根路径（Linux下是/，windows下是C：）：" << QDir::rootPath();
+    // 获取当前用户的桌面路径
+    QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    qDebug() << "桌面路径：" << desktopPath;
+    //设置树的根路径
+    fileSystemModel->setRootPath(desktopPath);
+    fileTreeView->setModel(fileSystemModel);
+    fileTreeView->setRootIndex(fileSystemModel->index(desktopPath));
+    // 设置布局
+    QVBoxLayout *layout = new QVBoxLayout(firstTabWidget);
+    layout->addWidget(fileTreeView);
+    firstTabWidget->setLayout(layout);
+    // 设置右键菜单策略为允许自定义右键菜单
+    fileTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
+    //文件树连接右键菜单信号
+    connect(fileTreeView, &QTreeView::customContextMenuRequested, this, &MainWindow::showContextMenu);
+    //文件树双击文件信号
+    connect(fileTreeView, &QTreeView::doubleClicked, this, &MainWindow::openFile);
+    //文件树安装对应的事件过滤器
+    ui->localFileTab->installEventFilter(this);
+    //添加事件过滤器
+    ui->SshTabWidget->installEventFilter(this);
+    ui->SshTabWidget->setFocus(); //获取焦点，只有当前焦点所在位置才能触发对应的事件过滤器
+    // 为 QTabWidget 中已经存在的每个 QWidget 安装事件过滤器，让其点击后可以获取到焦点
+    for (int i = 0; i < ui->SshTabWidget->count(); ++i) {
+        QWidget *widget = ui->SshTabWidget->widget(i);
+        if (widget) {
+            widget->installEventFilter(this);
+        }
+    }
+    // 为 QTabWidget 中已经存在的每个 QWidget 安装事件过滤器，让其点击后可以获取到焦点
+    for (int i = 0; i < ui->ConfigTabWidget->count(); ++i) {
+        QWidget *widget = ui->ConfigTabWidget->widget(i);
+        if (widget) {
+            widget->installEventFilter(this);
+        }
+    }
+    //QTreeWidget
+    // 设置显示的列数为1
+    ui->connectTreeWidget->setColumnCount(1);
+    // 清除表头(不然会有一个1值显示在上方)
+    ui->connectTreeWidget->setHeaderHidden(true);
+    // 设置QTreeWidget的属性
+    ui->connectTreeWidget->setEditTriggers(QAbstractItemView::EditKeyPressed); // 可通过F2编辑
+    ui->connectTreeWidget->setSelectionMode(QAbstractItemView::SingleSelection); // 可选择
+    ui->connectTreeWidget->setDragEnabled(true); // 可拖动
+    ui->connectTreeWidget->setAcceptDrops(true); // 可接受拖放
+    ui->connectTreeWidget->setDefaultDropAction(Qt::MoveAction);
+    ui->connectTreeWidget->setItemsExpandable(true);
+    ui->connectTreeWidget->setRootIsDecorated(true);
+    // 移除可能导致问题的这一行
+    // ui->connectTreeWidget->setCheckState(0, Qt::Unchecked);
+    ui->connectTreeWidget->setEnabled(true); // 可启用
+
+    // 定义图标路径
+    QString iconPath = ":/icon/";
+
+    // 加载图标
+    QIcon userIcon(iconPath + "folder.png"); // 一级菜单图标
+    QIcon ipIcon(iconPath + "folder.png");   // 二级菜单图标
+
+    // 创建一级菜单项目 user1
+    QTreeWidgetItem *user1Item = new QTreeWidgetItem(ui->connectTreeWidget);
+    user1Item->setText(0, "user1");
+    user1Item->setIcon(0, userIcon);
+    user1Item->setFlags(user1Item->flags() | Qt::ItemIsEditable | Qt::ItemIsUserCheckable);
+
+    // 为 user1 添加二级菜单项目 192.168.1.133
+    QTreeWidgetItem *ipItem1 = new QTreeWidgetItem(user1Item);
+    ipItem1->setText(0, "192.168.1.133");
+    ipItem1->setIcon(0, ipIcon);
+    ipItem1->setFlags(ipItem1->flags() | Qt::ItemIsEditable | Qt::ItemIsUserCheckable);
+
+    // 创建一级菜单项目 user2
+    QTreeWidgetItem *user2Item = new QTreeWidgetItem(ui->connectTreeWidget);
+    user2Item->setText(0, "user2");
+    user2Item->setIcon(0, userIcon);
+    user2Item->setFlags(user2Item->flags() | Qt::ItemIsEditable | Qt::ItemIsUserCheckable);
+
+    // 为 user2 添加二级菜单项目 192.168.1.133
+    QTreeWidgetItem *ipItem2 = new QTreeWidgetItem(user2Item);
+    ipItem2->setText(0, "192.168.1.133");
+    ipItem2->setIcon(0, ipIcon);
+    ipItem2->setFlags(ipItem2->flags() | Qt::ItemIsEditable | Qt::ItemIsUserCheckable);
+
+    // 设置样式表以去除水平分割线
+    ui->connectTreeWidget->setStyleSheet("QTreeWidget{"
+                                "border: none;"
+                                "}");
+
+
+    // 从指定路径读取图标和文件名进行显示
+    // 构建文件树
+    TreeNode* root = TreeUtil::buildDirTree("D:/1");
+    TreeUtil::dfs(root);
+    TreeUtil::bfs(root);
+    qDebug()<<"层数："<<TreeUtil::getTreeDepth(root);
+    if (root) {
+        //深度遍历树节点,转换为对应QTreeWidgetItem
+        QTreeWidgetItem* rootTreeWidgetItem= convertTreeNodeToTreeWidgetItem(root,ui->connectTreeWidget);
+        // 释放文件树内存
+//        delete root;
+    }
+
+
+    // 显示 QTreeWidget
+    ui->connectTreeWidget->show();
+
+}
+/**
+ * 深度遍历：将 TreeNode 转换为 QTreeWidgetItem
+ * @brief convertTreeNodeToTreeWidgetItem
+ * @param node
+ * @param treeWidget 传入 QTreeWidget 指针，用于创建根节点
+ * @return
+ */
+QTreeWidgetItem* MainWindow::convertTreeNodeToTreeWidgetItem(TreeNode* node, QTreeWidget* treeWidget) {
+    if (!node) {
+        return nullptr;
+    }
+    QTreeWidgetItem* item;
+    if (treeWidget) {
+        item = new QTreeWidgetItem(treeWidget);
+    } else {
+        item = new QTreeWidgetItem();
+    }
+    item->setText(0, node->name);
+    item->setIcon(0, node->icon);
+
+    // 递归处理子节点
+    for (TreeNode* child : node->children) {
+        QTreeWidgetItem* childItem = convertTreeNodeToTreeWidgetItem(child, nullptr);
+        item->addChild(childItem);
+    }
+    return item;
+}
+//树节点的右键菜单方法
+void MainWindow::showContextMenu(const QPoint &pos) {
+    qDebug() << "右键触发";
+    QModelIndex index = fileTreeView->indexAt(pos);
+    if (index.isValid()) {
+        QFileInfo fileInfo = fileSystemModel->fileInfo(index);
+        if (fileInfo.isFile()) {
+            QMenu contextMenu(this);
+            QAction *deleteAction = contextMenu.addAction("删除文件");
+            deleteAction->setIcon(QIcon(":/icon/folder.png"));
+            QAction *modifyFileNameAction = contextMenu.addAction("重命名");
+            modifyFileNameAction->setIcon(QIcon(":/icon/folder.png"));
+            QAction *queryAction = contextMenu.addAction("打开文件");
+            queryAction->setIcon(QIcon(":/icon/folder.png"));
+            QAction *copyAction = contextMenu.addAction("复制文件");
+            // 使用资源路径来设置图标
+            copyAction->setIcon(QIcon(":/icon/folder.png"));
+            connect(copyAction, &QAction::triggered, this, &MainWindow::createFile);
+            connect(deleteAction, &QAction::triggered, this, &MainWindow::deleteFileOrDir);
+            connect(modifyFileNameAction, &QAction::triggered, this, &MainWindow::modifyFileName);
+            connect(queryAction, &QAction::triggered, this, &MainWindow::openFile);
+            contextMenu.exec(fileTreeView->viewport()->mapToGlobal(pos));
+        } else if (fileInfo.isDir()) {
+            QMenu contextMenu(this);
+            QAction *createFileAction = contextMenu.addAction("创建文件");
+            // 使用资源路径来设置图标
+            createFileAction->setIcon(QIcon(":/icon/folder.png"));
+            QAction *clearDirAction = contextMenu.addAction("清空目录");
+            clearDirAction->setIcon(QIcon(":/icon/folder.png"));
+            QAction *createDirAction = contextMenu.addAction("创建目录");
+            // 使用资源路径来设置图标
+            createDirAction->setIcon(QIcon(":/icon/folder.png"));
+            QAction *deleteDirAction = contextMenu.addAction("删除目录");
+            deleteDirAction->setIcon(QIcon(":/icon/folder.png"));
+            connect(createFileAction, &QAction::triggered, this, &MainWindow::createFile);
+            connect(createDirAction, &QAction::triggered, this, &MainWindow::createDir);
+            connect(deleteDirAction, &QAction::triggered, this, &MainWindow::deleteFileOrDir);
+            connect(clearDirAction, &QAction::triggered, this, &MainWindow::clearDir);
+            contextMenu.exec(fileTreeView->viewport()->mapToGlobal(pos));
+        }
+    }
+}
+void MainWindow::copyFile() {
+    QModelIndex index = fileTreeView->currentIndex();
+    if (index.isValid()) {
+        QFileInfo fileInfo = fileSystemModel->fileInfo(index);
+        if (fileInfo.isDir()) {
+            QString filePath = fileInfo.absoluteFilePath() + "/new_file.txt";
+            QFile file(filePath);
+            if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                file.close();
+                qDebug() << "文件创建成功：" << filePath;
+            } else {
+                qDebug() << "文件创建失败：" << filePath;
+            }
+        }
+    }
+}
+void MainWindow::createFile() {
+    QModelIndex index = fileTreeView->currentIndex();
+    if (index.isValid()) {
+        QFileInfo fileInfo = fileSystemModel->fileInfo(index);
+        int i = 0;
+        QString filePath = fileInfo.absoluteFilePath() + "/temp" + QString::number(i) + ".txt";
+        while (true) {
+            qDebug() << "path：" << filePath;
+            if (!FileUtil::isExist(filePath)) { //如果不存在则使用当前文件名创建文件
+                FileUtil::createFile(filePath);
+                break;
+            }
+            i++;
+            //构建要查找和替换的子串
+            QString oldStr = QString::number(i - 1) + ".txt";
+            QString newStr = QString::number(i) + ".txt";
+            StringUtil::replaceEndSubStr(filePath, oldStr, newStr);
+        }
+    }
+}
+void MainWindow::createDir() {
+    QModelIndex index = fileTreeView->currentIndex();
+    if (index.isValid()) {
+        QFileInfo fileInfo = fileSystemModel->fileInfo(index);
+        int i = 0;
+        QString filePath = fileInfo.absoluteFilePath() + "/temp" + QString::number(i) + "/";
+        while (true) {
+            qDebug() << "path：" << filePath;
+            if (!FileUtil::isExist(filePath)) { //如果不存在则使用当前文件名创建文件
+                FileUtil::createDir(filePath);
+                break;
+            }
+            i++;
+            //构建要查找和替换的子串
+            QString oldStr = QString::number(i - 1) + "/";
+            QString newStr = QString::number(i) + "/";
+            StringUtil::replaceEndSubStr(filePath, oldStr, newStr);
+        }
+        FileUtil::createDir(filePath);
+    }
+}
+void MainWindow::deleteFileOrDir() {
+    QModelIndex index = fileTreeView->currentIndex();
+    if (index.isValid()) {
+        QFileInfo fileInfo = fileSystemModel->fileInfo(index);
+        FileUtil::deleteFileOrDir(fileInfo.absoluteFilePath());
+    }
+}
+
+void MainWindow::clearDir() {
+    QModelIndex index = fileTreeView->currentIndex();
+    if (index.isValid()) {
+        QFileInfo fileInfo = fileSystemModel->fileInfo(index);
+        FileUtil::clearDir(fileInfo.absoluteFilePath());
+    }
+}
+void MainWindow::modifyFileName() {
+    QModelIndex index = fileTreeView->currentIndex();
+    if (index.isValid()) {
+        QFileInfo fileInfo = fileSystemModel->fileInfo(index);
+        QString originalPath = fileInfo.absoluteFilePath();
+        // 提示用户输入新名称
+        bool ok;
+        QString newName = QInputDialog::getText(this, "重命名", "请输入新的名称:", QLineEdit::Normal, fileInfo.fileName(), &ok);
+        if (ok && !newName.isEmpty()) {
+            // 调用重命名方法
+            if (FileUtil::modifyFileName(originalPath, newName)) {
+                // 刷新文件树视图
+                QString rootPath = fileSystemModel->rootPath();
+                fileSystemModel->setRootPath("");
+                fileSystemModel->setRootPath(rootPath);
+            }
+        }
+    }
+}
+void MainWindow::openFile() {
+    QModelIndex index = fileTreeView->currentIndex();
+    if (index.isValid()) {
+        QFileInfo fileInfo = fileSystemModel->fileInfo(index);
+        if (fileInfo.isFile()) {
+            QString filePath = fileInfo.absoluteFilePath();
+            qDebug() << "尝试打开文件：" << filePath;
+            bool result = FileUtil::openFile(filePath);
+            if (!result) {
+                qDebug() << "打开文件" + filePath + "报错：";
+            }
+        }
+    }
+}
+
+// 事件过滤器函数实现
+bool MainWindow::eventFilter(QObject *target, QEvent *event) {
+//    qDebug() << "触发了鼠标、快捷键事件过滤器:" << target;
+    // 如果事件来自文件树
+    if (target == ui->localFileTab && event->type() == QEvent::KeyPress) {
+        // 将事件转换为键盘事件
+        QKeyEvent *k = static_cast<QKeyEvent *>(event);
+        // 如果按下F2键
+        if (k->key() == Qt::Key_F2) {
+            // 调用对应的修改文件名方法
+            modifyFileName();
+            return true;// 事件已处理
+        }
+    }
+    // 如果事件来自主体标签窗体
+    if (target == ui->SshTabWidget && event->type() == QEvent::KeyPress) {
+        // 将事件转换为键盘事件
+        QKeyEvent *k = static_cast<QKeyEvent *>(event);
+        // 如果同时按下control键和w键
+        if (k->modifiers() == Qt::ControlModifier && k->key() == Qt::Key_W) {
+            //关闭当前标签
+            if (ui->SshTabWidget->currentIndex() != 0) {
+                closeTab(ui->SshTabWidget->currentIndex());
+            }
+            return true;//事件已被处理
+        }
+        // 如果同时按下control键和q键
+        if (k->modifiers() == Qt::ControlModifier && k->key() == Qt::Key_Q) {
+            //跳转上一个标签
+            if (ui->SshTabWidget->currentIndex() - 1 != 0) {
+                ui->SshTabWidget->setCurrentIndex(ui->SshTabWidget->currentIndex() - 1);
+            }
+            return true;//事件已被处理
+        }
+        // 如果同时按下control键和tab键
+        if (k->modifiers() == Qt::ControlModifier && k->key() == Qt::Key_Tab) {
+            //跳转下一个标签
+            if (ui->SshTabWidget->currentIndex() + 1 != ui->SshTabWidget->count() - 1) {
+                ui->SshTabWidget->setCurrentIndex(ui->SshTabWidget->currentIndex() + 1);
+            }
+            return true;//事件已被处理
+        }
+        //如果事件来自
+    }
+    //如果是鼠标点击事件，让其获取到焦点
+    if (event->type() == QEvent::MouseButtonPress) {
+        QWidget *clickedWidget = qobject_cast<QWidget *>(target);
+        if (clickedWidget) {
+            // 让被点击的 QWidget 获取焦点
+            clickedWidget->setFocus();
+            qDebug() << "Widget got focus: " << clickedWidget->objectName();
+            return true;
+        }
+    }
+    // 如果不满足上述条件，调用父类的事件过滤器
+    return QWidget::eventFilter(target, event);
+}
+// 处理标签页关闭事件
+void MainWindow::closeTab(int index) {
+    // 移除指定索引的标签页
+    ui->SshTabWidget->removeTab(index);
+    if (ui->SshTabWidget->currentIndex() == ui->SshTabWidget->count() - 1) {
+        //让索引往前一个标签移动，最后一个标签用来做新增操作
+        ui->SshTabWidget->setCurrentIndex(ui->SshTabWidget->currentIndex() - 1);
+    }
+}
+// 处理标签页点击事件
+void MainWindow::clickTab(int index) {
+    if (index == ui->SshTabWidget->count() - 1) {
+        // 创建新的标签页
+        QWidget *newTab = new QWidget();
+        QVBoxLayout *layout = new QVBoxLayout(newTab);
+//        QLabel *label = new QLabel("/home/test/" + QString::number(ui->SshTabWidget->currentIndex()), newTab);
+
+
+//        CommandWindow* cmdWidget=new CommandWindow(newTab);
+//        cmdWidget->setCmdWinTxt("初始化");
+//        layout->addWidget(cmdWidget);
+
+        // 创建 QTextEdit 并填入初始化值
+        // 创建自定义 QTextEdit 并填入初始化值
+        // 设置布局边距为 0，使Layout内部的QTextEdit 紧贴边缘
+         layout->setContentsMargins(0, 0, 0, 0);
+          CustomTextEdit *textEdit = new CustomTextEdit("初始化:沈打野制作，基于libssh2的ssh终端管理工具", newTab);
+          textEdit->setAutoFillBackground(true);
+          textEdit->setLineWrapMode(QTextEdit::NoWrap);
+          // 去除边框
+          textEdit->setStyleSheet("border: none;");
+          // 设置 QTextEdit 的大小策略为可扩展
+          textEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+//          // 设置 QTextEdit 的固定大小为 500x400
+//          textEdit->setFixedSize(500, 400);
+          // 将 QTextEdit 添加到布局中，并设置拉伸因子为 1，让它在布局中占据尽可能多的空间。
+          layout->addWidget(textEdit, 1);
+//        layout->addWidget(label);
+        // 设置新标签页里的主窗口的样式
+        newTab->setStyleSheet("background-color: black; color: white;");
+        //新加的标签添加事件过滤器：获取焦点，获取焦点后才能使其触发事件过滤器
+        newTab->installEventFilter(this);
+        // 添加新的标签页
+        int newTabIndex = ui->SshTabWidget->insertTab(ui->SshTabWidget->count() - 1, newTab, "/home/test" + QString::number(ui->SshTabWidget->currentIndex()));
+        //标签颜色重新渲染
+        tabCountChange();
+    }
+    qDebug() << "----------点击主体标签";
+    //重新获取焦点，让其触发对应事件过滤器
+    ui->SshTabWidget->setFocus();
+}
+//标签页数量变化（新增/减少）后要进行的标签颜色重新渲染操作
+void MainWindow::tabCountChange() {
+    if (ui->SshTabWidget->count() == 2) { //标签页数为2，说明回到初始化状态，回到白色
+        ui->SshTabWidget->setStyleSheet("");
+        ui->SshTabWidget->tabBar()->setStyleSheet("");
+    } else { //有新增标签页情况，需要渲染为黑色
+        ui->SshTabWidget->tabBar()->setStyleSheet("QTabBar::tab:selected { border: 1px solid #ccc; /* 标签边框 */ border-top-left-radius: 10px; /* 左上角圆角 */ border-top-right-radius: 10px; /* 右上角圆角 */background-color: black; color: white; }");
+    }
+}
+
+//标签页进行切换后触发的事件：处理颜色重新渲染
+void MainWindow::tabSwitch(int index) {
+    qDebug() << "标签变化，切换的索引值:" << index << "，所在的索引值：" << ui->SshTabWidget->currentIndex();
+    if (index == 0 || index == ui->SshTabWidget->count() - 1) { //切换的是初始化标签，或者结束标签
+        ui->SshTabWidget->setStyleSheet("");
+        ui->SshTabWidget->tabBar()->setStyleSheet("");
+    } else { //切换的是非初始化标签
+        ui->SshTabWidget->tabBar()->setStyleSheet("QTabBar::tab:selected { border: 1px solid #ccc; /* 标签边框 */ border-top-left-radius: 10px; /* 左上角圆角 */ border-top-right-radius: 10px; /* 右上角圆角 */background-color: black; color: white; }");
+    }
+}
+MainWindow::~MainWindow() {
+    delete ui;
+}
+

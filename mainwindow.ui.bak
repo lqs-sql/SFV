@@ -1,0 +1,1702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1550</width>
+    <height>843</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <layout class="QGridLayout" name="gridLayout" rowstretch="1,18,1">
+    <item row="1" column="0">
+     <widget class="QSplitter" name="splitter">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="handleWidth">
+       <number>5</number>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout" stretch="2,12">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+        <item>
+         <widget class="QLineEdit" name="lineEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTabWidget" name="ConfigTabWidget">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QTabBar::tab {
+    width: 45px; /* 设置标签页宽度 */
+    height: 45px; /* 设置标签页高度，与宽度相同以实现正方形 */
+}
+
+QTabBar::tab:selected {
+    background-color: lightgray; /* 选中标签页的背景颜色 */
+}</string>
+          </property>
+          <property name="tabPosition">
+           <enum>QTabWidget::West</enum>
+          </property>
+          <property name="tabShape">
+           <enum>QTabWidget::Rounded</enum>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="elideMode">
+           <enum>Qt::ElideNone</enum>
+          </property>
+          <property name="documentMode">
+           <bool>false</bool>
+          </property>
+          <property name="tabBarAutoHide">
+           <bool>false</bool>
+          </property>
+          <widget class="QWidget" name="connectTab">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <attribute name="icon">
+            <iconset resource="resources/icon.qrc">
+             <normaloff>:/icon/cut.png</normaloff>:/icon/cut.png</iconset>
+           </attribute>
+           <attribute name="title">
+            <string/>
+           </attribute>
+           <widget class="QTreeWidget" name="connectTreeWidget">
+            <property name="geometry">
+             <rect>
+              <x>-5</x>
+              <y>1</y>
+              <width>461</width>
+              <height>591</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="acceptDrops">
+             <bool>false</bool>
+            </property>
+            <property name="lineWidth">
+             <number>8</number>
+            </property>
+            <property name="verticalScrollBarPolicy">
+             <enum>Qt::ScrollBarAsNeeded</enum>
+            </property>
+            <column>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </column>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="localFileTab">
+           <attribute name="icon">
+            <iconset resource="resources/icon.qrc">
+             <normaloff>:/icon/cut.png</normaloff>:/icon/cut.png</iconset>
+           </attribute>
+           <attribute name="title">
+            <string/>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QTabWidget" name="SshTabWidget">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="tabShape">
+             <enum>QTabWidget::Triangular</enum>
+            </property>
+            <property name="currentIndex">
+             <number>1</number>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="elideMode">
+             <enum>Qt::ElideNone</enum>
+            </property>
+            <property name="tabsClosable">
+             <bool>false</bool>
+            </property>
+            <property name="movable">
+             <bool>false</bool>
+            </property>
+            <property name="tabBarAutoHide">
+             <bool>false</bool>
+            </property>
+            <widget class="QWidget" name="initTab">
+             <attribute name="icon">
+              <iconset resource="resources/icon.qrc">
+               <normaloff>:/icon/paste.png</normaloff>:/icon/paste.png</iconset>
+             </attribute>
+             <attribute name="title">
+              <string/>
+             </attribute>
+            </widget>
+            <widget class="QWidget" name="addTab">
+             <attribute name="icon">
+              <iconset>
+               <normaloff>:/icon/folder-open.png</normaloff>:/icon/folder-open.png</iconset>
+             </attribute>
+             <attribute name="title">
+              <string/>
+             </attribute>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="0" column="0">
+             <widget class="QLabel" name="cpuUsageSituation_2">
+              <property name="text">
+               <string>cpu</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="memoryUsageSituation_2">
+              <property name="text">
+               <string>memory</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLabel" name="diskUsageProgressBar_2">
+              <property name="text">
+               <string>disk</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget_2">
+       <layout class="QVBoxLayout" name="verticalLayout_4" stretch="2,12">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+        <item>
+         <widget class="QLineEdit" name="lineEdit2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTabWidget" name="ConfigTabWidget2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QTabBar::tab {
+    width: 45px; /* 设置标签页宽度 */
+    height: 45px; /* 设置标签页高度，与宽度相同以实现正方形 */
+}
+
+QTabBar::tab:selected {
+    background-color: lightgray; /* 选中标签页的背景颜色 */
+}</string>
+          </property>
+          <property name="tabPosition">
+           <enum>QTabWidget::East</enum>
+          </property>
+          <property name="tabShape">
+           <enum>QTabWidget::Rounded</enum>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="elideMode">
+           <enum>Qt::ElideNone</enum>
+          </property>
+          <property name="documentMode">
+           <bool>false</bool>
+          </property>
+          <property name="tabBarAutoHide">
+           <bool>false</bool>
+          </property>
+          <widget class="QWidget" name="connectTab2">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <attribute name="icon">
+            <iconset resource="resources/icon.qrc">
+             <normaloff>:/icon/cut.png</normaloff>:/icon/cut.png</iconset>
+           </attribute>
+           <attribute name="title">
+            <string/>
+           </attribute>
+           <widget class="QTreeWidget" name="connectTreeWidget2">
+            <property name="geometry">
+             <rect>
+              <x>-5</x>
+              <y>1</y>
+              <width>461</width>
+              <height>591</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="acceptDrops">
+             <bool>false</bool>
+            </property>
+            <property name="lineWidth">
+             <number>8</number>
+            </property>
+            <property name="verticalScrollBarPolicy">
+             <enum>Qt::ScrollBarAsNeeded</enum>
+            </property>
+            <column>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </column>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="remoteFileTab">
+           <attribute name="icon">
+            <iconset resource="resources/icon.qrc">
+             <normaloff>:/icon/cut.png</normaloff>:/icon/cut.png</iconset>
+           </attribute>
+           <attribute name="title">
+            <string/>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton_3">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>73</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Session</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>72</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Server</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton_4">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>73</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Tool</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton_5">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>72</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Game</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton_6">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>73</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Session</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton_7">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>73</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>View</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton_8">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>72</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Split</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton_9">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>73</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>MultiExec</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton_10">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>73</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Tunneling</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton_11">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>72</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Package</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton_12">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>73</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Setting</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton_13">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>73</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Help</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+          <horstretch>2</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton_14">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>72</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>X server</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QToolButton" name="toolButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>73</width>
+          <height>62</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+  background-color: transparent;  /* 设置透明背景色 */
+  color: black; /*设置黑色字体*/
+font-size: 12px;
+}
+QToolButton:hover {
+ border:1px solid rgb(219, 235, 255);
+ background-color: rgb(219, 235, 255);  /* 设置透明背景色 */
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Exit</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/icon.qrc">
+          <normaloff>:/icon/file-text-o.png</normaloff>:/icon/file-text-o.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::DelayedPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="2" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="3,4,3">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QProgressBar" name="uploadProgressBar">
+          <property name="value">
+           <number>24</number>
+          </property>
+          <property name="textVisible">
+           <bool>false</bool>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="invertedAppearance">
+           <bool>false</bool>
+          </property>
+          <property name="textDirection">
+           <enum>QProgressBar::TopToBottom</enum>
+          </property>
+          <property name="format">
+           <string>%p%</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="widget_2" native="true"/>
+        </item>
+        <item>
+         <widget class="QProgressBar" name="downloadProgressBar">
+          <property name="value">
+           <number>24</number>
+          </property>
+          <property name="textVisible">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1550</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuTerminal">
+    <property name="title">
+     <string>Terminal</string>
+    </property>
+    <addaction name="actionOpen_new_tab"/>
+    <addaction name="actionClose_current_tab"/>
+    <addaction name="separator"/>
+    <addaction name="actionSet_tab_title"/>
+    <addaction name="actionDetach"/>
+    <addaction name="actionSave_terminal_text"/>
+    <addaction name="actionPrint_terminal_text"/>
+    <addaction name="actionFind_in_terminal"/>
+    <addaction name="actionFind_next"/>
+    <addaction name="separator"/>
+    <addaction name="actionDuplicate_current_tab"/>
+    <addaction name="actionWrite_commands_on_all_terminals"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuSession">
+    <property name="title">
+     <string>Session</string>
+    </property>
+    <addaction name="actionNew_session"/>
+    <addaction name="separator"/>
+    <addaction name="actionUser_session"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionSingle_terminal_mode"/>
+    <addaction name="action2_terminals_mode_vertical_split"/>
+    <addaction name="action2_terminals_mode_horizontal_split"/>
+    <addaction name="action4_terminals_mode"/>
+    <addaction name="separator"/>
+    <addaction name="actionCompact_mode"/>
+    <addaction name="actionFullscreen_mode"/>
+    <addaction name="actionIconify_MobaXterm"/>
+    <addaction name="separator"/>
+    <addaction name="actionShow_menu_bar"/>
+    <addaction name="actionShow_buttions_bar"/>
+    <addaction name="actionShow_both"/>
+    <addaction name="separator"/>
+    <addaction name="actionSmall_buttons"/>
+    <addaction name="actionStandard_buttons"/>
+    <addaction name="separator"/>
+    <addaction name="actionTerminal_zoom"/>
+    <addaction name="actionTerminal_unzoom"/>
+    <addaction name="separator"/>
+    <addaction name="actionShow_hide_sidebar"/>
+    <addaction name="actionPut_sidebar_on_the_left"/>
+    <addaction name="actionPut_sidebar_on_the_right"/>
+    <addaction name="separator"/>
+    <addaction name="actionShow_tab_numbers"/>
+    <addaction name="actionShow_close_button"/>
+    <addaction name="separator"/>
+    <addaction name="actionToggle_light_dark_theme"/>
+    <addaction name="actionShow_hide_sidebar_tab_titles"/>
+    <addaction name="separator"/>
+    <addaction name="actionTake_a_scrrenshot"/>
+   </widget>
+   <widget class="QMenu" name="menuX_server">
+    <property name="title">
+     <string>X server</string>
+    </property>
+    <addaction name="actionStop_X_server"/>
+    <addaction name="actionXDMCP_session"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionSystem"/>
+    <addaction name="actionMobApt_packages_manager_experimental"/>
+    <addaction name="actionX11_tab_with_Dwm"/>
+    <addaction name="actionX11_window_with_Fvwm"/>
+    <addaction name="actionX11_window_with_Twm"/>
+    <addaction name="actionList_hardware_devices"/>
+    <addaction name="actionList_running_process"/>
+    <addaction name="actionCommand_Prompt_admin"/>
+    <addaction name="actionWindows_Powershell_admin"/>
+    <addaction name="separator"/>
+    <addaction name="actionOffice"/>
+    <addaction name="actionMobaTextEditor"/>
+    <addaction name="actionMobaDiff"/>
+    <addaction name="actionAscii_table"/>
+    <addaction name="separator"/>
+    <addaction name="actionNetwork"/>
+    <addaction name="actionNetwork_services"/>
+    <addaction name="actionMobaSSHTunnel_port_forwarding"/>
+    <addaction name="actionMobaKeyGen_SSH_key_generator"/>
+    <addaction name="actionList_open_network_ports"/>
+    <addaction name="actionWake_On_Lan"/>
+    <addaction name="actionNetwork_scanner"/>
+    <addaction name="actionPorts_scanner"/>
+    <addaction name="actionNetwork_packets_capture"/>
+   </widget>
+   <widget class="QMenu" name="menuGames">
+    <property name="title">
+     <string>Game</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuSetting">
+    <property name="title">
+     <string>Setting</string>
+    </property>
+    <addaction name="actionConfiguation"/>
+    <addaction name="actionKeyboard_shortcuts"/>
+    <addaction name="separator"/>
+    <addaction name="actionImport_configuration"/>
+    <addaction name="actionExport_Configuration"/>
+    <addaction name="actionReset_configuration"/>
+    <addaction name="separator"/>
+    <addaction name="actionManager_shared_session"/>
+   </widget>
+   <widget class="QMenu" name="menuMarco">
+    <property name="title">
+     <string>Macro</string>
+    </property>
+    <addaction name="actionRecord_new_macro"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionDocument"/>
+    <addaction name="actionCheck_for_updates"/>
+    <addaction name="actionView_MobaXterm_log_file"/>
+    <addaction name="actionTry_MobaXterm_Professional_Customize"/>
+    <addaction name="actionAbout_SFV"/>
+   </widget>
+   <addaction name="menuTerminal"/>
+   <addaction name="menuSession"/>
+   <addaction name="menuView"/>
+   <addaction name="menuX_server"/>
+   <addaction name="menuTools"/>
+   <addaction name="menuGames"/>
+   <addaction name="menuSetting"/>
+   <addaction name="menuMarco"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionOpen_new_tab">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icon/folder-open.png</normaloff>:/icon/folder-open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open new tab</string>
+   </property>
+  </action>
+  <action name="actionClose_current_tab">
+   <property name="text">
+    <string>Close current tab</string>
+   </property>
+  </action>
+  <action name="actionSet_tab_title">
+   <property name="text">
+    <string>Set tab title</string>
+   </property>
+  </action>
+  <action name="actionDetach">
+   <property name="text">
+    <string>Detach</string>
+   </property>
+  </action>
+  <action name="actionSave_terminal_text">
+   <property name="text">
+    <string>Save terminal text</string>
+   </property>
+  </action>
+  <action name="actionPrint_terminal_text">
+   <property name="text">
+    <string>Print terminal text</string>
+   </property>
+  </action>
+  <action name="actionFind_in_terminal">
+   <property name="text">
+    <string>Find in terminal</string>
+   </property>
+  </action>
+  <action name="actionFind_next">
+   <property name="text">
+    <string>Find next</string>
+   </property>
+  </action>
+  <action name="actionDuplicate_current_tab">
+   <property name="text">
+    <string>Duplicate current tab</string>
+   </property>
+  </action>
+  <action name="actionWrite_commands_on_all_terminals">
+   <property name="text">
+    <string>Write commands on all terminals</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionNew_session">
+   <property name="text">
+    <string>New session</string>
+   </property>
+  </action>
+  <action name="actionUser_session">
+   <property name="text">
+    <string>User session</string>
+   </property>
+  </action>
+  <action name="actionSingle_terminal_mode">
+   <property name="text">
+    <string>Single terminal mode</string>
+   </property>
+  </action>
+  <action name="action2_terminals_mode_vertical_split">
+   <property name="text">
+    <string>2 terminals mode(vertical split)</string>
+   </property>
+  </action>
+  <action name="action2_terminals_mode_horizontal_split">
+   <property name="text">
+    <string>2 terminals mode(horizontal split)</string>
+   </property>
+  </action>
+  <action name="action4_terminals_mode">
+   <property name="text">
+    <string>4 terminals mode</string>
+   </property>
+  </action>
+  <action name="actionCompact_mode">
+   <property name="text">
+    <string>Compact mode</string>
+   </property>
+  </action>
+  <action name="actionFullscreen_mode">
+   <property name="text">
+    <string>Fullscreen mode</string>
+   </property>
+  </action>
+  <action name="actionIconify_MobaXterm">
+   <property name="text">
+    <string>Iconify Sfv</string>
+   </property>
+  </action>
+  <action name="actionShow_menu_bar">
+   <property name="text">
+    <string>Show menu bar</string>
+   </property>
+  </action>
+  <action name="actionShow_buttions_bar">
+   <property name="text">
+    <string>Show buttions bar</string>
+   </property>
+  </action>
+  <action name="actionShow_both">
+   <property name="text">
+    <string>Show both</string>
+   </property>
+  </action>
+  <action name="actionSmall_buttons">
+   <property name="text">
+    <string>Small buttons</string>
+   </property>
+  </action>
+  <action name="actionStandard_buttons">
+   <property name="text">
+    <string>Standard buttons with captions</string>
+   </property>
+  </action>
+  <action name="actionTerminal_zoom">
+   <property name="text">
+    <string>Terminal zoom</string>
+   </property>
+  </action>
+  <action name="actionTerminal_unzoom">
+   <property name="text">
+    <string>Terminal unzoom</string>
+   </property>
+  </action>
+  <action name="actionShow_hide_sidebar">
+   <property name="text">
+    <string>Show/hide sidebar</string>
+   </property>
+  </action>
+  <action name="actionPut_sidebar_on_the_left">
+   <property name="text">
+    <string>Put sidebar on the left</string>
+   </property>
+  </action>
+  <action name="actionPut_sidebar_on_the_right">
+   <property name="text">
+    <string>Put sidebar on the right</string>
+   </property>
+  </action>
+  <action name="actionShow_tab_numbers">
+   <property name="text">
+    <string>Show tab numbers</string>
+   </property>
+  </action>
+  <action name="actionShow_close_button">
+   <property name="text">
+    <string>Show close button</string>
+   </property>
+  </action>
+  <action name="actionToggle_light_dark_theme">
+   <property name="text">
+    <string>Toggle light/dark theme</string>
+   </property>
+  </action>
+  <action name="actionShow_hide_sidebar_tab_titles">
+   <property name="text">
+    <string>Show/hide sidebar tab title</string>
+   </property>
+  </action>
+  <action name="actionTake_a_scrrenshot">
+   <property name="text">
+    <string>Take a scrrenshot</string>
+   </property>
+  </action>
+  <action name="actionStop_X_server">
+   <property name="text">
+    <string>Stop X server</string>
+   </property>
+  </action>
+  <action name="actionXDMCP_session">
+   <property name="text">
+    <string>XDMCP session</string>
+   </property>
+  </action>
+  <action name="actionSystem">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>System</string>
+   </property>
+  </action>
+  <action name="actionMobApt_packages_manager_experimental">
+   <property name="text">
+    <string>Sfv packages manager(experimental)</string>
+   </property>
+  </action>
+  <action name="actionX11_tab_with_Dwm">
+   <property name="text">
+    <string>X11 tab with Dwm</string>
+   </property>
+  </action>
+  <action name="actionX11_window_with_Fvwm">
+   <property name="text">
+    <string>X11 window with Fvwm</string>
+   </property>
+  </action>
+  <action name="actionX11_window_with_Twm">
+   <property name="text">
+    <string>X11 window with Twm</string>
+   </property>
+  </action>
+  <action name="actionList_hardware_devices">
+   <property name="text">
+    <string>List hardware device</string>
+   </property>
+  </action>
+  <action name="actionList_running_process">
+   <property name="text">
+    <string>List running process</string>
+   </property>
+  </action>
+  <action name="actionCommand_Prompt_admin">
+   <property name="text">
+    <string>Command Prompt(admin)</string>
+   </property>
+  </action>
+  <action name="actionWindows_Powershell_admin">
+   <property name="text">
+    <string>Windows Powershell(admin)</string>
+   </property>
+  </action>
+  <action name="actionOffice">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Office</string>
+   </property>
+  </action>
+  <action name="actionMobaTextEditor">
+   <property name="text">
+    <string>Sfv TextEditor</string>
+   </property>
+  </action>
+  <action name="actionMobaDiff">
+   <property name="text">
+    <string>Sfv Diff</string>
+   </property>
+  </action>
+  <action name="actionAscii_table">
+   <property name="text">
+    <string>Ascii table</string>
+   </property>
+  </action>
+  <action name="actionNetwork">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Network</string>
+   </property>
+  </action>
+  <action name="actionNetwork_services">
+   <property name="text">
+    <string>Network services</string>
+   </property>
+  </action>
+  <action name="actionMobaSSHTunnel_port_forwarding">
+   <property name="text">
+    <string>Sfv SSHTunnel(port forwarding)</string>
+   </property>
+  </action>
+  <action name="actionMobaKeyGen_SSH_key_generator">
+   <property name="text">
+    <string>Sfv KeyGen(SSH key generator)</string>
+   </property>
+  </action>
+  <action name="actionList_open_network_ports">
+   <property name="text">
+    <string>List open network ports</string>
+   </property>
+  </action>
+  <action name="actionWake_On_Lan">
+   <property name="text">
+    <string>Wake On Lan</string>
+   </property>
+  </action>
+  <action name="actionNetwork_scanner">
+   <property name="text">
+    <string>Network scanner</string>
+   </property>
+  </action>
+  <action name="actionPorts_scanner">
+   <property name="text">
+    <string>Ports scanner</string>
+   </property>
+  </action>
+  <action name="actionNetwork_packets_capture">
+   <property name="text">
+    <string>Network packets capture</string>
+   </property>
+  </action>
+  <action name="actionConfiguation">
+   <property name="text">
+    <string>Configuation</string>
+   </property>
+  </action>
+  <action name="actionKeyboard_shortcuts">
+   <property name="text">
+    <string>Keyboard shortcuts</string>
+   </property>
+  </action>
+  <action name="actionImport_configuration">
+   <property name="text">
+    <string>Import configuration</string>
+   </property>
+  </action>
+  <action name="actionExport_Configuration">
+   <property name="text">
+    <string>Export Configuration</string>
+   </property>
+  </action>
+  <action name="actionReset_configuration">
+   <property name="text">
+    <string>Reset configuration</string>
+   </property>
+  </action>
+  <action name="actionManager_shared_session">
+   <property name="text">
+    <string>Manager shared session</string>
+   </property>
+  </action>
+  <action name="actionRecord_new_macro">
+   <property name="text">
+    <string>Record new macro</string>
+   </property>
+  </action>
+  <action name="actionDocument">
+   <property name="text">
+    <string>Document</string>
+   </property>
+  </action>
+  <action name="actionCheck_for_updates">
+   <property name="text">
+    <string>Check for updates</string>
+   </property>
+  </action>
+  <action name="actionView_MobaXterm_log_file">
+   <property name="text">
+    <string>View Sfv log file</string>
+   </property>
+  </action>
+  <action name="actionTry_MobaXterm_Professional_Customize">
+   <property name="text">
+    <string>Try Sfv Professional Customizer</string>
+   </property>
+  </action>
+  <action name="actionAbout_SFV">
+   <property name="text">
+    <string>About Sfv</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="resources/icon.qrc"/>
+ </resources>
+ <connections/>
+</ui>

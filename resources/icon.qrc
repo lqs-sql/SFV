@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/"/>
+    <qresource prefix="/icon">
+        <file>cut.png</file>
+        <file>file-text-o.png</file>
+        <file>fullscreen.png</file>
+        <file>paste.png</file>
+        <file>refresh.png</file>
+        <file>remove.png</file>
+        <file>reply.png</file>
+        <file>rotate-left.png</file>
+        <file>rotate-right.png</file>
+        <file>share.png</file>
+        <file>save.png</file>
+        <file>folder.png</file>
+    </qresource>
+</RCC>
